@@ -6,22 +6,12 @@ package model;
  */
 public class Slot {
 
-    private long id;
     private String jenisKendaraan;
     private int totalSlot;
 
-    public Slot(long id, String jenisKendaraan, int totalSlot) {
-        this.id = id;
+    public Slot(String jenisKendaraan, int totalSlot) {
         this.jenisKendaraan = jenisKendaraan;
         this.totalSlot = totalSlot;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getJenisKendaraan() {

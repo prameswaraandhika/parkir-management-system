@@ -1,6 +1,9 @@
 package model;
 
-import java.time.LocalDateTime;
+import java.math.BigInteger;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  *
@@ -9,19 +12,16 @@ import java.time.LocalDateTime;
 public class Parkir {
 
     private String jenisKendaraan;
-    private int slotParkir;
     private String platNomor;
     private String kodeParkir;
-    private LocalDateTime waktuMasuk;
-    private LocalDateTime waktuKeluar;
+    private Date waktuMasuk;
+    private Date waktuKeluar;
 
-    public Parkir(String jenisKendaraan, int slotParkir, String platNomor, String kodeParkir, LocalDateTime waktuMasuk, LocalDateTime waktuKeluar) {
+    public Parkir(String jenisKendaraan, String platNomor, String kodeParkir, Date waktuMasuk) {
         this.jenisKendaraan = jenisKendaraan;
-        this.slotParkir = slotParkir;
         this.platNomor = platNomor;
         this.kodeParkir = kodeParkir;
         this.waktuMasuk = waktuMasuk;
-        this.waktuKeluar = waktuKeluar;
     }
 
     public String getJenisKendaraan() {
@@ -30,14 +30,6 @@ public class Parkir {
 
     public void setJenisKendaraan(String jenisKendaraan) {
         this.jenisKendaraan = jenisKendaraan;
-    }
-
-    public int getSlotParkir() {
-        return slotParkir;
-    }
-
-    public void setSlotParkir(int slotParkir) {
-        this.slotParkir = slotParkir;
     }
 
     public String getPlatNomor() {
@@ -56,20 +48,47 @@ public class Parkir {
         this.kodeParkir = kodeParkir;
     }
 
-    public LocalDateTime getWaktuMasuk() {
+    public Date getWaktuMasuk() {
         return waktuMasuk;
     }
 
-    public void setWaktuMasuk(LocalDateTime waktuMasuk) {
+    public void setWaktuMasuk(Date waktuMasuk) {
         this.waktuMasuk = waktuMasuk;
     }
 
-    public LocalDateTime getWaktuKeluar() {
+    public Date getWaktuKeluar() {
         return waktuKeluar;
     }
 
-    public void setWaktuKeluar(LocalDateTime waktuKeluar) {
+    public void setWaktuKeluar(Date waktuKeluar) {
         this.waktuKeluar = waktuKeluar;
+    }
+
+    public double getBiayaParkir() throws ParseException {
+        double tarifBiaya = getTarifBiaya(jenisKendaraan);
+        double biayaParkir = (waktuKeluar.getTime() - waktuMasuk.getTime()) / (100 * 60) * tarifBiaya;
+        return biayaParkir;
+    }
+
+    private double getTarifBiaya(String jenisKendaraan) {
+        switch (jenisKendaraan) {
+            case "MOTOR" -> {
+                return 100;
+            }
+            case "MOBIL" -> {
+                return 200;
+            }
+            case "VIP" -> {
+                return 300;
+            }
+            default ->
+                throw new AssertionError();
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Parkir{" + "jenisKendaraan=" + jenisKendaraan + ", platNomor=" + platNomor + ", kodeParkir=" + kodeParkir + ", waktuMasuk=" + waktuMasuk + ", waktuKeluar=" + waktuKeluar + '}';
     }
 
 }
